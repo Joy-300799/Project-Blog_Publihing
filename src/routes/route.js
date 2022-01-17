@@ -4,27 +4,15 @@ const authorController = require('../controller/authorController')
 const blogController = require('../controller/blogController')
 const middleware = require('../middleware/middleware')
 
-// create Author API
+//Author routes
 router.post('/authors', authorController.createAuthor)
+router.post('/login', authorController.loginAuthor)
 
-// Login API for Authorization while login.
-router.post('/login', blogController.loginAuthor)
-
-// Create Blog API
+//Blog routes
 router.post('/blogs', middleware.loginCheck, blogController.createBlog)
-
-// filter API
 router.get('/filterblogs', middleware.loginCheck, blogController.getBlog)
-
-// update blog API
-router.put('/blogs/:blogId', middleware.loginCheck, middleware.blogId, blogController.updateDetails)
-
-// delete blog API
+router.put('/blogs/:blogId', middleware.loginCheck, blogController.updateDetails)
 router.delete('/blogs/:blogId', middleware.loginCheck, blogController.deleteBlog)
-
-// deleteByFilter API
 router.delete('/blogs', middleware.loginCheck, blogController.deleteSpecific)
-
-
 
 module.exports = router;

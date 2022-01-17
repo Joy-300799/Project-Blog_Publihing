@@ -1,22 +1,6 @@
 const authorModel = require('../model/authorModel.js')
 const jwt = require('jsonwebtoken')
-
-//Validating functions - 
-const isValid = function(value) {
-    if (typeof value === "undefined" || value === null) return false
-    if (typeof value === "string" && value.trim().length === 0) return false
-    return true
-}
-
-const isValidTitle = function(title) {
-        return ['Mr', 'Mrs', 'Miss', 'Mast'].indexOf(title) !== -1
-    }
-    // So, for example: 'undefined'.indexOf() will return 0, as undefined is found at position 0 in the
-    //  string undefined. 'undefine'.indexOf() however will return -1, as undefined is not found in the string undefine.
-
-const isValidRequestBody = function(requestBody) {
-        return Object.keys(requestBody).length > 0
-    } //Validating fucntions ends here.
+const validator = require('../utils/validator')
 
 //Creating Author documents by validating the details.
 const createAuthor = async function(req, res) {
@@ -24,7 +8,7 @@ const createAuthor = async function(req, res) {
         // Request body verifying
         let requestBody = req.body
 
-        if (!isValidRequestBody(requestBody)) {
+        if (!validator.isValidRequestBody(requestBody)) {
             return res.status(400).send({ status: true, message: "Invalid request parameter, please provide author Detaills" })
         }
 
@@ -33,19 +17,19 @@ const createAuthor = async function(req, res) {
 
         // Validation started & detecting here the falsy values .
 
-        if (!isValid(fname)) {
+        if (!validator.isValid(fname)) {
             return res.status(400).send({ status: true, message: 'First name is required' })
         }
-        if (!isValid(lname)) {
+        if (!validator.isValid(lname)) {
             return res.status(400).send({ status: true, message: 'Last name is required' })
         }
-        if (!isValid(title)) {
+        if (!validator.isValid(title)) {
             return res.status(400).send({ status: true, message: 'Title is required' })
         }
-        if (!isValidTitle(title)) {
+        if (!validator.isValidTitle(title)) {
             return res.status(400).send({ status: false, message: `Title should be among Mr, Mrs, Miss and Mast` })
         }
-        if (!isValid(email)) {
+        if (!validator.isValid(email)) {
             return res.status(400).send({ status: false, message: `Email is required` })
         }
 
@@ -55,7 +39,7 @@ const createAuthor = async function(req, res) {
             return
         }
 
-        if (!isValid(password)) {
+        if (!validator.isValid(password)) {
             return res.status(400).send({ status: false, message: `Password is required` })
         }
         const isEmailAlredyUsed = await authorModel.findOne({ email })
@@ -85,7 +69,7 @@ const loginAuthor = async function(req, res) {
         const { email, password } = requestBody
 
         //Validation starts -
-        if (!isValid(email)) {
+        if (!validator.isValid(email)) {
             return res.status(400).send({ status: false, message: `Email is required` })
         }
 
@@ -94,7 +78,7 @@ const loginAuthor = async function(req, res) {
             res.status(400).send({ status: false, message: `Email should be a valid email address` })
             return
         }
-        if (!isValid(password)) { //Password is entered correctly or not.
+        if (!validator.isValid(password)) { //Password is entered correctly or not.
             return res.status(400).send({ status: false, message: `Password is required` })
         }
         //Validitions ends

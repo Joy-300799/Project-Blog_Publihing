@@ -103,9 +103,6 @@ Refer below sample
 ```
 
 
-
-
-
 ## Collections
 ### Blogs
 ```yaml

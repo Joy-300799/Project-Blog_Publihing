@@ -9,22 +9,21 @@ const createAuthor = async function(req, res) {
         let requestBody = req.body
 
         if (!validator.isValidRequestBody(requestBody)) {
-            return res.status(400).send({ status: true, message: "Invalid request parameter, please provide author Detaills" })
+            return res.status(400).send({ status: false, message: "Invalid request parameter, please provide author Detaills" })
         }
 
         //Extract body params
-        const { fname, lname, title, email, password } = requestBody // Object destruturing
+        const { fname, lname, title, email, password } = requestBody
 
         // Validation started & detecting here the falsy values .
-
         if (!validator.isValid(fname)) {
-            return res.status(400).send({ status: true, message: 'First name is required' })
+            return res.status(400).send({ status: false, message: 'First name is required' })
         }
         if (!validator.isValid(lname)) {
-            return res.status(400).send({ status: true, message: 'Last name is required' })
+            return res.status(400).send({ status: false, message: 'Last name is required' })
         }
         if (!validator.isValid(title)) {
-            return res.status(400).send({ status: true, message: 'Title is required' })
+            return res.status(400).send({ status: false, message: 'Title is required' })
         }
         if (!validator.isValidTitle(title)) {
             return res.status(400).send({ status: false, message: `Title should be among Mr, Mrs, Miss and Mast` })
@@ -48,20 +47,18 @@ const createAuthor = async function(req, res) {
         }
         //validation Ends
 
-        const authorData = { fname, lname, title, email, password }
-        const newAuthor = await authorModel.create(authorData)
+        const newAuthor = await authorModel.create(requestBody)
         res.status(201).send({ status: true, message: `Author created successfully`, data: newAuthor })
     } catch (error) {
-        res.status(500).send({ status: false, message: error.message });
+        res.status(500).send({ status: false, Error: error.message });
     }
-
 }
 
 //Login author Handler - Author won't be able to login with wrong credentials.
 const loginAuthor = async function(req, res) {
     try {
         const requestBody = req.body
-        if (!isValidRequestBody(requestBody)) {
+        if (!validator.isValidRequestBody(requestBody)) {
             return res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide login details' })
         }
 
@@ -83,16 +80,17 @@ const loginAuthor = async function(req, res) {
         }
         //Validitions ends
 
-        const author = await authorModel.findOne({ email, password }) //finding author details in DB to get a match of the provided Email and password.
+        const findAuthor = await authorModel.findOne({ email, password }) //finding author details in DB to get a match of the provided Email and password.
 
-        if (!author) {
-            return res.status(401).send({ status: false, message: `Invalid login Email` });
+        if (!findAuthor) {
+            return res.status(401).send({ status: false, message: `Invalid login credentials. Please check the details & try again.` });
         }
-        let token = await jwt.sign({ authorId: author._id }, "projectBlog")
+
+        let token = jwt.sign({ authorId: findAuthor._id }, "projectBlog")
         res.header('x-api-key', token)
-        res.status(200).send({ status: true, message: `Author login successfull`, data: { token } });
+        res.status(200).send({ status: true, message: `Author login successfully`, data: { token } });
     } catch (error) {
-        res.status(500).send({ status: false, message: error.message });
+        res.status(500).send({ status: false, Error: error.message });
     }
 }
 

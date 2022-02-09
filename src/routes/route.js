@@ -8,7 +8,7 @@ const middleware = require('../middleware/middleware')
 router.post('/authors', authorController.createAuthor)
 router.post('/login', authorController.loginAuthor)
 
-//Blog routes
+//Blog routes -> protected APIs
 router.post('/blogs', middleware.loginCheck, blogController.createBlog)
 router.get('/filterblogs', middleware.loginCheck, blogController.getBlog)
 router.put('/blogs/:blogId', middleware.loginCheck, blogController.updateDetails)

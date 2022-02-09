@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const authorSchema = new mongoose.Schema({
 
+const authorSchema = new mongoose.Schema({
     fname: {
         type: String,
         required: true, trim: true
@@ -23,7 +23,6 @@ const authorSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-
 }, { timestamps: true })
 
 module.exports = mongoose.model('project1_Author', authorSchema)

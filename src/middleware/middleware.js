@@ -5,7 +5,6 @@ const secretKey = "Project1-Blog_Publishing"
 
 const loginCheck = async function(req, res, next) {
     try {
-
         let token = req.headers['x-api-key']
         if (!token) {
             return res.status(403).send({ status: false, message: `Missing authentication token in request` })

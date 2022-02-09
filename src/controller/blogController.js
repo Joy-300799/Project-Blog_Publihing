@@ -3,6 +3,7 @@ const authorModel = require("../model/authorModel.js");
 const jwt = require("jsonwebtoken");
 const validator = require("../utils/validator");
 
+
 // creating blog by authorizing authorId.
 const createBlog = async function (req, res) {
   try {
@@ -52,7 +53,7 @@ const createBlog = async function (req, res) {
         .send({ status: false, message: "Blog category is required" });
     }
     //validation Ends
-    
+
     const blogData = {
       title,
       body,
@@ -68,6 +69,7 @@ const createBlog = async function (req, res) {
         blogData["tags"] = uniqueTagArr; //Using array constructor here
       }
     }
+
     if (subcategory) {
       if (Array.isArray(subcategory)) {
         const uniqueSubcategoryArr = [...new Set(subcategory)];
@@ -289,6 +291,7 @@ const deleteBlogById = async function (req, res) {
       });
       return;
     }
+    
     let data = await blogModel.findOne({ _id: id });
     if (data.isDeleted == false) {
       let Update = await blogModel.findOneAndUpdate(

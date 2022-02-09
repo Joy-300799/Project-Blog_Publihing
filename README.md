@@ -1,7 +1,6 @@
 ## Blogging Site Mini Project Requirement
 
 ## Phase I
-
 ### Models
 - Author Model
 ```yaml

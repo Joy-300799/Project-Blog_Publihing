@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const validator = require("../utils/validator");
 const secretKey = "Project1-Blog_Publishing";
 
-
 //Creating Author documents by validating the details.
 const createAuthor = async function (req, res) {
   try {

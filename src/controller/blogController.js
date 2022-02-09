@@ -3,7 +3,6 @@ const authorModel = require("../model/authorModel.js");
 const jwt = require("jsonwebtoken");
 const validator = require("../utils/validator");
 
-
 // creating blog by authorizing authorId.
 const createBlog = async function (req, res) {
   try {
@@ -410,5 +409,5 @@ module.exports = {
   getBlog,
   updateDetails,
   deleteBlogById,
-  deleteBlogByQuery,
+  deleteBlogByQuery
 };

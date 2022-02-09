@@ -11,7 +11,6 @@ const isValidTitle = function (title) {
   return ["Mr", "Mrs", "Miss", "Mast"].indexOf(title) !== -1;
 };
 
-
 const isValidRequestBody = function (requestBody) {
   return Object.keys(requestBody).length > 0;
 };

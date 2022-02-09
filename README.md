@@ -1,4 +1,4 @@
-## Blogging Site Mini Project Requirement
+## Blogging Site Mini Project
 
 ## Phase I
 ### Models

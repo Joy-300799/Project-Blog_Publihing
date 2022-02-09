@@ -146,7 +146,9 @@ const loginAuthor = async function (req, res) {
     }
 
     //creating JWT
-    let token = jwt.sign({ authorId: findAuthor._id }, secretKey);
+    let token = jwt.sign({ authorId: findAuthor._id ,
+      iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000)+3600*24*7}, secretKey);
     res.header("x-api-key", token);
     res
       .status(200)
